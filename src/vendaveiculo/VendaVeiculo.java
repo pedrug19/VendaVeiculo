@@ -1,0 +1,552 @@
+package vendaveiculo;
+
+import java.util.*;
+import java.io.*;
+import java.time.*;
+import java.text.*;
+
+/*
+Autores: Gustavo Molina
+Luis Marcello
+Pedrenrique Gonçalves
+ */
+public class VendaVeiculo {
+
+    //System.out.println(LocalDate.now());
+    //LocalDate localDate = LocalDate.now();
+    //System.out.println(DateTimeFormatter.ofPattern("yyy/MM/dd").format(localDate));
+    public static void main(String[] args) {
+
+        int opcLogin = 0, opcGer = 0, opcVen = 0, auxLogin, i;
+        int cpfCliente = 0, numchassi = 0, rgVendedor, veriCli = 0, veriVei = 0;
+        int opcCad = 0, indiceVen, j = 0, indiceClient;
+
+        int RG, diaNasc = 0, mesNasc = 0, anoNasc = 0, diaAdm = 0, mesAdm = 0, anoAdm = 0, tempoRest;
+        String nome, responsavel, numero, bairro, rua, cidade;
+        double salario;
+
+        boolean achou = false;
+
+        Scanner e = new Scanner(System.in);
+
+        //arquivos a serem usados//
+        try {
+            File arqCli = new File("C:\\Users\\User\\Documents\\Programas Java\\vendaVeiculo\\src\\vendaveiculo\\banco\\clientes.txt");
+            File arqGer = new File("C:\\Users\\User\\Documents\\Programas Java\\vendaVeiculo\\src\\vendaveiculo\\banco\\gerentes.txt");
+            File arqSen = new File("C:\\Users\\User\\Documents\\Programas Java\\vendaVeiculo\\src\\vendaveiculo\\banco\\vendsenior.txt");
+            File arqJun = new File("C:\\Users\\User\\Documents\\Programas Java\\vendaVeiculo\\src\\vendaveiculo\\banco\\vendjunior.txt");
+            File arqCar = new File("C:\\Users\\User\\Documents\\Programas Java\\vendaVeiculo\\src\\vendaveiculo\\banco\\carros.txt");
+            File arqMot = new File("C:\\Users\\User\\Documents\\Programas Java\\vendaVeiculo\\src\\vendaveiculo\\banco\\motos.txt");
+            File arqVenda = new File("C:\\Users\\User\\Documents\\Programas Java\\vendaVeiculo\\src\\vendaveiculo\\banco\\vendas.txt");
+            File arqRelaComum = new File("C:\\Users\\User\\Documents\\Programas Java\\vendaVeiculo\\src\\vendaveiculo\\banco\\relatorioComum.txt");
+            File arqRelaGerente = new File("C:\\Users\\User\\Documents\\Programas Java\\vendaVeiculo\\src\\vendaveiculo\\banco\\relatorioGerente.txt");
+
+            //objetos para escrita
+            FileWriter wArqCli = new FileWriter(arqCli, true);
+            FileWriter wArqGer = new FileWriter(arqGer, true);
+            FileWriter wArqSen = new FileWriter(arqSen, true);
+            FileWriter wArqJun = new FileWriter(arqJun, true);
+            FileWriter wArqCar = new FileWriter(arqCar, true);
+            FileWriter wArqMot = new FileWriter(arqMot, true);
+            FileWriter wArqVenda = new FileWriter(arqVenda, true);
+            FileWriter wArqRelaComum = new FileWriter(arqRelaComum, true);
+            FileWriter wArqRelaGerente = new FileWriter(arqRelaGerente, true);
+
+            //objetos para leitura
+            FileReader rArqCli = new FileReader(arqCli);
+            FileReader rArqGer = new FileReader(arqGer);
+            FileReader rArqSen = new FileReader(arqSen);
+            FileReader rArqJun = new FileReader(arqJun);
+            FileReader rArqCar = new FileReader(arqCar);
+            FileReader rArqMot = new FileReader(arqMot);
+            FileReader rArqVenda = new FileReader(arqVenda);
+            FileReader rArqRelaComum = new FileReader(arqRelaComum);
+            FileReader rArqRelaGerente = new FileReader(arqRelaGerente);
+
+            if (!arqCli.canRead() || !arqGer.canRead() || !arqSen.canRead() || !arqJun.canRead() || !arqCar.canRead()
+                    || !arqVenda.canRead() || !arqMot.canRead()) {
+                System.out.println("\n Arquivos do banco não podem ser lidos!");
+            }
+        } catch (IOException ex) {//mistério
+
+            System.out.println("\n O programa será fechado, favor consultar a equipe de TI.\n ");
+            System.exit(1);
+
+        }
+        //listas
+        ArrayList<vendedorJunior> vendJuniors = new ArrayList<>();
+        ArrayList<VendedorSenior> vendSeniors = new ArrayList<>();
+        ArrayList<VendedorGerente> gerentes = new ArrayList<>();
+        ArrayList<Carro> carros = new ArrayList<>();
+        ArrayList<Motocicleta> motocicletas = new ArrayList<>();
+        ArrayList<Cliente> clientes = new ArrayList<>();
+
+        //Instanciando um gerente administrador
+        VendedorGerente gerenteMaster;
+        gerenteMaster = new VendedorGerente(987654321, 1, 1, 1970, 1, 1, 2000, "Mestre", 1000);
+        // adicionando como primeiro da Lista de Gerentes.
+        gerentes.add(gerenteMaster);
+
+        //objetos;        
+        vendedorJunior junior;
+        VendedorSenior senior;
+        VendedorGerente gerente;
+        Cliente cliente;
+        Carro carro;
+        Motocicleta moto;
+
+        System.out.println("\n Bem-Vindo ao sistema da Foghette! \n");
+        while (opcLogin != -1) {
+
+            System.out.println("\n Login: (RG) \n");
+            System.out.println("\n -1 p/ fechar:\n");
+            auxLogin = Integer.parseInt(e.nextLine());
+            if (auxLogin == -1) {
+                System.out.println("\n Saindo...\n");
+                System.exit(1);
+            }
+            //verificando se é gerente
+            for (i = 0; i < gerentes.size(); i++) {
+                if (auxLogin == gerentes.get(i).rg) {
+                    opcLogin = 1;
+                    break;
+                }
+            }
+            //verificando se é junior
+            for (i = 0; i < vendJuniors.size(); i++) {
+                if (auxLogin == vendJuniors.get(i).rg) {
+                    opcLogin = 3;
+                    break;
+                }
+            }
+            //verificando se é senior
+            for (i = 0; i < vendSeniors.size(); i++) {
+                if (auxLogin == vendSeniors.get(i).rg) {
+                    opcLogin = 2;
+                    break;
+                }
+            }
+            rgVendedor = auxLogin;
+            if (opcLogin == 0) {
+                System.out.println("\n Login inválido! \n");
+            }
+
+            if (opcLogin == 1) {
+                System.out.println("\n Logado como gerente com sucesso! \n");
+            }
+
+            if (opcLogin == 2) {
+                System.out.println("\n Logado como vendedor senior com sucesso! \n");
+            }
+
+            if (opcLogin == 3) {
+                System.out.println("\n Logado como vendedor junior com sucesso! \n");
+            }
+
+            if (opcLogin == 1) {
+                while (opcGer != -1) {
+                    System.out.println("\n Menu: \n");
+                    System.out.println("\n 1 p/ Cadastrar vendedor: \n");
+                    System.out.println("\n 2 p/ Alterar vendedor: \n");
+                    System.out.println("\n 3 p/ Excluir vendedor: \n");
+                    System.out.println("\n 4 p/ Cadastrar cliente: \n");
+                    System.out.println("\n 5 p/ Alterar cliente: \n");
+                    System.out.println("\n 6 p/ Excluir cliente: \n");
+                    System.out.println("\n 7 p/ Cadastrar veiculo: \n");
+                    System.out.println("\n 8 p/ Alterar veiculo: \n");
+                    System.out.println("\n 9 p/ Excluir veiculo: \n");
+                    System.out.println("\n 10 p/ Realizar uma venda: \n");
+                    System.out.println("\n 11 p/ Ver relatório completo: \n");
+                    System.out.println("\n -1 p/ deslogar \n");
+                    opcGer = Integer.parseInt(e.nextLine());
+                    if (opcGer < -1 || opcGer > 11) {
+                        System.out.println("\n Opção Inválida! \n");
+                    }
+
+                    switch (opcGer) {
+                        case 1:
+                            while (opcCad != 1 || opcCad != 2 || opcCad != 3) {
+                                System.out.println("\n Digite o tipo de vendedor: \n");
+                                System.out.println("\n Digite 1 p/ Junior: \n");
+                                System.out.println("\n Digite 2 p/ Senior: \n");
+                                System.out.println("\n Digite 3 p/ Gerente: \n");
+                                opcCad = Integer.parseInt(e.nextLine());
+                            }
+                            System.out.println("\n Digite o nome: \n");
+                            nome = e.nextLine();
+                            System.out.println("\n Digite o RG: \n");
+                            RG = Integer.parseInt(e.nextLine());
+                            while (diaNasc < 1 || diaNasc > 31) {
+                                System.out.println("\n Digite o dia de nascimento: \n");
+                                diaNasc = Integer.parseInt(e.nextLine());
+                            }
+                            while (diaNasc < 1 || diaNasc > 12) {
+                                System.out.println("\n Digite o mes de nascimento: \n");
+                                mesNasc = Integer.parseInt(e.nextLine());
+                            }
+                            while (anoNasc < 1900 || anoNasc > 2017) {
+                                System.out.println("\n Digite o ano de nascimento: \n");
+                                anoNasc = Integer.parseInt(e.nextLine());
+                            }
+                            while (diaAdm < 1 || diaAdm > 31) {
+                                System.out.println("\n Digite o dia de admissão: \n");
+                                diaAdm = Integer.parseInt(e.nextLine());
+                            }
+                            while (mesAdm < 1 || mesAdm > 12) {
+                                System.out.println("\n Digite o mes de admissão: \n");
+                                mesAdm = Integer.parseInt(e.nextLine());
+                            }
+                            while (anoAdm < 1980 || anoAdm > 2017) {
+                                System.out.println("\n Digite o ano de admissão: \n");
+                                anoAdm = Integer.parseInt(e.nextLine());
+                            }
+                            System.out.println("\n Digite o salário: \n");
+                            salario = Double.parseDouble(e.nextLine());
+
+                            if (opcCad == 1) {//junior
+                                System.out.println("\n Digite tempo restante: (dias) \n");
+                                tempoRest = Integer.parseInt(e.nextLine());
+                                System.out.println("\n Digite o responsável: \n");
+                                responsavel = e.nextLine();
+                                junior = new vendedorJunior(RG, diaNasc, mesNasc, anoNasc, diaAdm,
+                                        mesAdm, anoAdm, nome, salario, tempoRest, responsavel);
+                                vendJuniors.add(junior);
+
+                            }
+                            if (opcCad == 2) {//senior
+
+                                senior = new VendedorSenior(RG, diaNasc, mesNasc, anoNasc, diaAdm,
+                                        mesAdm, anoAdm, nome, salario);
+                                vendSeniors.add(senior);
+                            }
+                            if (opcCad == 3) {//gerente
+
+                                gerente = new VendedorGerente(RG, diaNasc, mesNasc, anoNasc, diaAdm,
+                                        mesAdm, anoAdm, nome, salario);
+                                gerentes.add(gerente);
+                            }
+                            opcCad = 0;
+                            break;
+                        case 2:
+                            while (opcCad != 1 || opcCad != 2 || opcCad != 3) {
+                                System.out.println("\n Digite o tipo de vendedor para alterar: \n");
+                                System.out.println("\n Digite 1 p/ Junior: \n");
+                                System.out.println("\n Digite 2 p/ Senior: \n");
+                                System.out.println("\n Digite 3 p/ Gerente: \n");
+                                opcCad = Integer.parseInt(e.nextLine());
+                            }
+
+                            System.out.println("\n Digite o novo nome: \n");
+                            nome = e.nextLine();
+                            System.out.println("\n Digite o novo RG: \n");
+                            RG = Integer.parseInt(e.nextLine());
+                            while (diaNasc < 1 || diaNasc > 31) {
+                                System.out.println("\n Digite o novo dia de nascimento: \n");
+                                diaNasc = Integer.parseInt(e.nextLine());
+                            }
+                            while (diaNasc < 1 || diaNasc > 12) {
+                                System.out.println("\n Digite o novo mes de nascimento: \n");
+                                mesNasc = Integer.parseInt(e.nextLine());
+                            }
+                            while (anoNasc < 1900 || anoNasc > 2017) {
+                                System.out.println("\n Digite o novo ano de nascimento: \n");
+                                anoNasc = Integer.parseInt(e.nextLine());
+                            }
+                            while (diaAdm < 1 || diaAdm > 31) {
+                                System.out.println("\n Digite o novo dia de admissão: \n");
+                                diaAdm = Integer.parseInt(e.nextLine());
+                            }
+                            while (mesAdm < 1 || mesAdm > 12) {
+                                System.out.println("\n Digite o novo mes de admissão: \n");
+                                mesAdm = Integer.parseInt(e.nextLine());
+                            }
+                            while (anoAdm < 1980 || anoAdm > 2017) {
+                                System.out.println("\n Digite o novo ano de admissão: \n");
+                                anoAdm = Integer.parseInt(e.nextLine());
+                            }
+                            System.out.println("\n Digite o novo salário: \n");
+                            salario = Double.parseDouble(e.nextLine());
+
+                            if (opcCad == 1) {//junior
+                                System.out.println("\n Digite tempo restante: (dias) \n");
+                                tempoRest = Integer.parseInt(e.nextLine());
+                                System.out.println("\n Digite o responsável: \n");
+                                responsavel = e.nextLine();
+                                while (j == 0) {
+                                    System.out.println("\n Digite o RG do vendedor a ser alterado: \n");
+                                    indiceVen = Integer.parseInt(e.nextLine());
+                                    for (i = 0; i < vendJuniors.size(); i++) {
+                                        if (indiceVen == vendJuniors.get(i).getRg()) {
+                                            j = 1;
+                                            System.out.println("\n Dados do vendedor alterados!: \n");
+                                            break;
+                                        }
+                                    }
+                                }
+                                junior = new vendedorJunior(RG, diaNasc, mesNasc, anoNasc, diaAdm,
+                                        mesAdm, anoAdm, nome, salario, tempoRest, responsavel);
+                                vendJuniors.remove(i);
+                                vendJuniors.add(junior);
+                                j = 0;
+                            }
+                            if (opcCad == 2) {//senior
+                                while (j == 0) {
+                                    System.out.println("\n Digite o RG do vendedor a ser alterado: \n");
+                                    indiceVen = Integer.parseInt(e.nextLine());
+                                    for (i = 0; i < vendSeniors.size(); i++) {
+                                        if (indiceVen == vendSeniors.get(i).getRg()) {
+                                            j = 1;
+                                            System.out.println("\n Dados do vendedor alterados!: \n");
+                                            break;
+                                        }
+                                    }
+                                }
+                                senior = new VendedorSenior(RG, diaNasc, mesNasc, anoNasc, diaAdm,
+                                        mesAdm, anoAdm, nome, salario);
+                                vendSeniors.remove(i);
+                                vendSeniors.add(senior);
+                                j = 0;
+                            }
+                            if (opcCad == 3) {//gerente
+
+                                while (j == 0) {
+                                    System.out.println("\n Digite o RG do vendedor a ser alterado: \n");
+                                    indiceVen = Integer.parseInt(e.nextLine());
+                                    for (i = 0; i < gerentes.size(); i++) {
+                                        if (indiceVen == gerentes.get(i).getRg()) {
+                                            j = 1;
+                                            System.out.println("\n Dados do gerente alterados!: \n");
+                                            break;
+                                        }
+                                    }
+                                }
+                                gerente = new VendedorGerente(RG, diaNasc, mesNasc, anoNasc, diaAdm,
+                                        mesAdm, anoAdm, nome, salario);
+                                gerentes.remove(i);
+                                gerentes.add(gerente);
+                                j = 0;
+                            }
+                            opcCad = 0;
+                            break;
+                        case 3:
+                            while (opcCad != 1 || opcCad != 2 || opcCad != 3) {
+                                System.out.println("\n Digite o tipo de vendedor para excluir: \n");
+                                System.out.println("\n Digite 1 p/ Junior: \n");
+                                System.out.println("\n Digite 2 p/ Senior: \n");
+                                System.out.println("\n Digite 3 p/ Gerente: \n");
+                                opcCad = Integer.parseInt(e.nextLine());
+                            }
+                            System.out.println("\n Digite o RG dele: \n");
+                            indiceVen = Integer.parseInt(e.nextLine());
+                            achou = false;
+                            if (opcCad == 1) {
+                                for (i = 0; i < vendJuniors.size() && achou == false; i++) {
+                                    if (indiceVen == vendJuniors.get(i).getRg()) {
+                                        achou = true;
+                                        vendJuniors.remove(i);
+                                        System.out.println("\n Vendedor removido! \n");
+                                    }
+                                }
+                                if(!achou){
+                                    System.out.println("\n Vendedor não encontrado! \n");
+                                }
+                            }
+
+                            if (opcCad == 2) {
+                                for (i = 0; i < vendSeniors.size() && achou == false; i++) {
+                                    if (indiceVen == vendSeniors.get(i).getRg()) {
+                                        achou = true;
+                                        vendSeniors.remove(i);
+                                        System.out.println("\n Vendedor removido! \n");
+                                    }
+                                }
+                                if(!achou){
+                                    System.out.println("\n Vendedor não encontrado! \n");
+                                }
+
+                            }
+                            if (opcCad == 3) {
+                                for (i = 0; i < gerentes.size() && achou == false; i++) {
+                                    if (indiceVen == gerentes.get(i).getRg()) {
+                                        achou = true;
+                                        gerentes.remove(i);
+                                        System.out.println("\n Vendedor removido! \n");
+                                    }
+                                }
+                                if(!achou){
+                                    System.out.println("\n Vendedor não encontrado! \n");
+                                }
+                            }
+                            opcCad = 0;
+                            break;
+
+                        case 4:
+                            System.out.println("\n Cadastrar cliente \n");
+                            break;
+                        case 5:
+                            System.out.println("\n Alterar cliente \n");
+                            break;
+                        case 6:
+                            System.out.println("\n Excluir cliente \n");
+                            System.out.println("Digite o CPF do cliente:");
+                            indiceClient = Integer.parseInt(e.nextLine());
+                            achou = false;
+                            for(i = 0; i < clientes.size() && achou == false; i++){
+                                if(clientes.get(i).getCpf() == indiceClient){
+                                    achou = true;
+                                    clientes.remove(i);
+                                    System.out.println("Cliente removido com sucesso!");
+                                }
+                            }
+                            if(!achou){
+                                System.out.println("Cliente não encontrado.");
+                            }
+                            break;
+                        case 7:
+                            System.out.println("\n Cadastrar veículo \n");
+                            break;
+                        case 8:
+                            System.out.println("\n Alterar veículo \n");
+                            break;
+                        case 9:
+                            System.out.println("\n Excluir veículo \n");
+                            System.out.println("Digite o número do chassi do veículo: ");
+                            numchassi = Integer.parseInt(e.nextLine());
+                            achou = false;
+                            for(i = 0; i < carros.size() && achou == false; i++){
+                                if(carros.get(i).getChassi() == numchassi){
+                                    achou = true;
+                                    carros.remove(i);
+                                }
+                            }
+                            for(i = 0; i < motocicletas.size() && achou == false; i++) {
+                                if(motocicletas.get(i).getChassi() == numchassi){
+                                    achou = true;
+                                    motocicletas.remove(i);
+                                }
+                            }
+                            if(achou){
+                                System.out.println("Veículo removido com sucesso!");
+                            } else {
+                                System.out.println("Veículo não encontrado.");
+                            }
+                            break;
+                        case 10:
+                            System.out.println("\n Realizar venda \n");
+                            System.out.println("\n Venda: \n");
+                            if (clientes.isEmpty() || carros.isEmpty() || motocicletas.isEmpty()) {
+                                System.out.println("\n é necessário cadastrar pelo menos um cliente ou"
+                                        + " um carro ou uma moto! \n");
+                            } else {//pode relizar a venda
+                                while (veriCli == 0) {
+                                    System.out.println("\n Digite o CPF do cliente: \n");
+                                    cpfCliente = Integer.parseInt(e.nextLine());
+                                    for (i = 0; i < clientes.size(); i++) {
+                                        if (cpfCliente == clientes.get(i).CPF) {
+                                            veriCli = 1;
+                                            System.out.println("\n CPF encontrado! \n");
+                                            break;
+                                        }
+                                    }
+                                }
+                                while (veriVei == 0) {
+                                    System.out.println("\n Digite o Número do chassi do veículo: \n");
+                                    numchassi = Integer.parseInt(e.nextLine());
+                                    for (i = 0; i < carros.size(); i++) {
+                                        if (numchassi == carros.get(i).getChassi()) {
+                                            veriVei = 1;
+                                            System.out.println("\n Número do carro encontrado! \n");
+                                            break;
+                                        }
+                                    }
+                                    for (i = 0; i < motocicletas.size(); i++) {
+                                        if (numchassi == motocicletas.get(i).getChassi()) {
+                                            veriVei = 1;
+                                            System.out.println("\n Número da moto encontrado! \n");
+                                        }
+                                    }
+                                }
+                                veriCli = 0;//isso permite que ele sempre faça a verificação quando for cadastrar uma nova compra   
+                                veriVei = 0;
+
+                            }
+
+                            break;
+                        case 11:
+                            System.out.println("\n relatório completo \n");
+                            break;
+                    }
+
+                }//fim - while
+            }//fim if
+            if (opcLogin == 2 || opcLogin == 3) {//para o caso de vendedor
+                while (opcVen != -1) {
+
+                    System.out.println("\n Menu: \n");
+                    System.out.println("\n 1 p/ realizar uma venda: \n");
+                    System.out.println("\n 2 p/ ver relatório parcial: \n");
+                    System.out.println("\n -1 p/ deslogar: \n");
+                    opcVen = Integer.parseInt(e.nextLine());
+
+                    if (opcVen < -1 || opcVen > 2) {
+                        System.out.println("\n Entrada Inválida! \n");
+                    } else {
+                        if (opcVen == 1) {
+                            System.out.println("\n Venda: \n");
+                            if (clientes.isEmpty() || carros.isEmpty() || motocicletas.isEmpty()) {
+                                System.out.println("\n é necessário cadastrar pelo menos um cliente ou"
+                                        + " um carro ou uma moto! \n");
+                            } else {//pode relizar a venda
+                                while (veriCli == 0) {
+                                    System.out.println("\n Digite o CPF do cliente: \n");
+                                    cpfCliente = Integer.parseInt(e.nextLine());
+                                    for (i = 0; i < clientes.size(); i++) {
+                                        if (cpfCliente == clientes.get(i).CPF) {
+                                            veriCli = 1;
+                                            System.out.println("\n CPF encontrado! \n");
+                                            break;
+                                        }
+                                    }
+                                }
+                                while (veriVei == 0) {
+                                    System.out.println("\n Digite o Número do chassi do veículo: \n");
+                                    numchassi = Integer.parseInt(e.nextLine());
+                                    for (i = 0; i < carros.size(); i++) {
+                                        if (numchassi == carros.get(i).numchassi) {
+                                            veriVei = 1;
+                                            System.out.println("\n Número do carro encontrado! \n");
+                                            break;
+                                        }
+                                    }
+                                    for (i = 0; i < motocicletas.size(); i++) {
+                                        if (numchassi == motocicletas.get(i).numchassi) {
+                                            veriVei = 1;
+                                            System.out.println("\n Número da moto encontrado! \n");
+                                        }
+                                    }
+                                }
+                                veriCli = 0;//isso permite que ele sempre faça a verificação quando for cadastrar uma nova compra   
+                                veriVei = 0;
+
+                                System.out.println("\n A venda será feita: \n");
+                                System.out.println("\n RG vendedor:" + rgVendedor + "\n");
+                                System.out.println("\n CPF cliente:" + cpfCliente + "\n");
+                                System.out.println("\n número do chassi:" + numchassi + "\n");
+                                //colocar em outro .txt os dados acima;
+                            }
+
+                        }// fim do if venda
+                        if (opcVen == 2) {
+                            System.out.println("\n Relatório: \n");
+
+                        }
+
+                    }
+                }
+            }
+
+        }//fim while
+        System.out.println("\n Saindo...\n");
+    }
+}
+
