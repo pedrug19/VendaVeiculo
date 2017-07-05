@@ -4,24 +4,43 @@ public class Carro extends Veiculo {
 
     private int potencia, numcilindros, numocupantes;
     private double comp, larg, altu;
+    private String tipoCarro;
 
     public enum Tipos {
         UTILITARIO, PICKUP, SEDAN, HATCH, ESPORTIVO
     }
-    Tipos tipocarro;
+    private Tipos enumtipocarro;
 
     public Carro(int numchassi, int ano, int quilometragem, int peso, String marca,
-            String modelo, String tipocombustivel, int status, int potencia, double preco,
-            int numcilindros, int numocupantes, Tipos tipocarro, double comp, double larg, double altu) {
+            String modelo, String tipocombustivel, int status, int potencia,
+            int numcilindros, int numocupantes, String tipoCarro, double comp, double larg, double altu, double preco) {
         super(numchassi, ano, quilometragem, peso, marca, modelo, tipocombustivel, status, preco);
         this.potencia = potencia;
         this.numcilindros = numcilindros;
         this.numocupantes = numocupantes;
-        this.tipocarro = tipocarro;
+        this.tipoCarro = tipoCarro;
         this.altu = altu;
         this.comp = comp;
         this.larg = larg;
-
+        if(tipoCarro.equals("SEDAN")){
+            enumtipocarro = Tipos.SEDAN;
+        }
+        if(tipoCarro.equals("UTILITARIO")){
+            enumtipocarro = Tipos.UTILITARIO;
+        }
+        if(tipoCarro.equals("PICKUP")){
+            enumtipocarro = Tipos.PICKUP;
+        }
+        if(tipoCarro.equals("HATCH")){
+            enumtipocarro = Tipos.HATCH;
+        }
+        if(tipoCarro.equals("ESPORTIVO")){
+            enumtipocarro = Tipos.ESPORTIVO;
+        }
+        
+    }
+    public String getTipoCarro(){
+        return tipoCarro;
     }
     
     public void setPot(int potencia){
@@ -71,14 +90,13 @@ public class Carro extends Veiculo {
     public double getLarg(){
         return larg;
     }
-    
     public void getTudo(){
         System.out.println("Número do chassi: " + numchassi);
         System.out.println("Marca: " + marca);
         System.out.println("Numero de ocupantes: " + numocupantes);
         System.out.println("Modelo: " + modelo);
         System.out.println("Ano: " + ano);
-        System.out.println("Tipo: " + tipocarro);
+        System.out.println("Tipo: " + tipoCarro);
         System.out.println("Km: " + quilometragem);
         System.out.println("Potência: " + potencia);
         System.out.println("Altura: " + altu);
