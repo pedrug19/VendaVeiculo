@@ -73,20 +73,20 @@ public class Carro extends Veiculo {
     }
     
     public void getTudo(){
-        System.out.println("Número do chassi: " + numchassi);
-        System.out.println("Marca: " + marca);
-        System.out.println("Numero de ocupantes: " + numocupantes);
-        System.out.println("Modelo: " + modelo);
-        System.out.println("Ano: " + ano);
-        System.out.println("Tipo: " + tipocarro);
-        System.out.println("Km: " + quilometragem);
-        System.out.println("Potência: " + potencia);
-        System.out.println("Altura: " + altu);
-        System.out.println("Comprimento: " + comp);
-        System.out.println("Largura: " + larg);
-        System.out.println("Tipo de combustível: " + tipocombustivel);
-        System.out.println("Peso: " + peso + " Kg");
-        System.out.println("Cilindradas: " + numcilindros);
-        System.out.println("Preço: " + preco);
+        System.out.println("\nNúmero do chassi: " + numchassi);
+        System.out.println("\nMarca: " + marca);
+        System.out.println("\nNumero de ocupantes: " + numocupantes);
+        System.out.println("\nModelo: " + modelo);
+        System.out.println("\nAno: " + ano);
+        System.out.println("\nTipo: " + tipocarro);
+        System.out.println("\nKm: " + quilometragem);
+        System.out.println("\nPotência: " + potencia);
+        System.out.println("\nAltura: " + altu);
+        System.out.println("\nComprimento: " + comp);
+        System.out.println("\nLargura: " + larg);
+        System.out.println("\nTipo de combustível: " + tipocombustivel);
+        System.out.println("\nPeso: " + peso + " Kg");
+        System.out.println("\nCilindradas: " + numcilindros);
+        System.out.println("\nPreço: " + preco);
     }
 }
