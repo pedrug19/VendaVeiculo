@@ -85,7 +85,7 @@ public class Cliente {
         return desconto;
     }
 
-    public double getParcelas(double preco) {
+    public void getParcelas(double preco) {
         if (dependentes == 1) {
             parcelas = preco/12;
             System.out.println("12x de R$ " + (preco) / 12 + "cada!");
@@ -115,20 +115,9 @@ public class Cliente {
                 System.out.println("Juros de 4,5% por parcela.");
             }
         }
-        return parcelas;
     }
 
     public int getCpf() {
         return CPF;
     }
-    
-    public void getTudo() {
-        System.out.println("\nNome: " + nome);
-        System.out.println("\nData de nascimento: " +dianasc+"/"+mesnasc+"/"+anonasc);        
-        System.out.println("\nCPF: " + CPF);
-        System.out.println("\nRenda: " + renda);
-        System.out.println("\nDependentes: " + dependentes);
-        System.out.println("\nEndereço: " + cidade + ","+ "bairro" + bairro+", rua" + rua +"," + numero ); 
-    }  
-    
 }
