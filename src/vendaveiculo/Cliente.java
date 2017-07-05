@@ -121,4 +121,14 @@ public class Cliente {
     public int getCpf() {
         return CPF;
     }
+    
+    public void getTudo() {
+        System.out.println("\nNome: " + nome);
+        System.out.println("\nData de nascimento: " +dianasc+"/"+mesnasc+"/"+anonasc);        
+        System.out.println("\nCPF: " + CPF);
+        System.out.println("\nRenda: " + renda);
+        System.out.println("\nDependentes: " + dependentes);
+        System.out.println("\nEndereço: " + cidade + ","+ "bairro" + bairro+", rua" + rua +"," + numero ); 
+    }  
+    
 }
