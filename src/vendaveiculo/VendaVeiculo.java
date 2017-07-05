@@ -36,7 +36,7 @@ public class VendaVeiculo {
         int veiculo = 0;
         System.out.println("\n Realizar venda \n");
         System.out.println("\n Venda: \n");
-        if (clientes.isEmpty() || carros.isEmpty() || motocicletas.isEmpty()) {
+        if (clientes.isEmpty() && (carros.isEmpty() || motocicletas.isEmpty())) {
             System.out.println("\n é necessário cadastrar pelo menos um cliente ou"
                     + " um carro ou uma moto! \n");
         } else {//pode relizar a venda
@@ -153,7 +153,10 @@ public class VendaVeiculo {
 
     public static void cadastraVeiculo() {
         int opcVeiculo = 0, ano, peso, cilindradas, km;
-        String marca, tipomoto, tipocombustivel, modelo;
+        String marca, tipomoto, tipocombustivel, modelo, tipocarro;
+        int potencia;
+        int numocupantes;
+        double comp, larg, altu;
         System.out.println("Escolha o que deseja cadastrar: ");
         System.out.println("1 - Moto");
         System.out.println("2 - Carro");
@@ -189,7 +192,45 @@ public class VendaVeiculo {
                             cilindradas, tipomoto, preco);
                     motocicletas.add(moto);
                     break;
+                case 2:
+                    System.out.println("Cadastrando carro: ");
+                    System.out.println("Número do chassi: ");
+                    numchassi = Integer.parseInt(e.nextLine());
+                    System.out.println("Marca: ");
+                    marca = e.nextLine();
+                    System.out.println("Modelo: ");
+                    modelo = e.nextLine();
+                    System.out.println("Tipo: utilitário, pickup, sedan, hatch,\n"
+                            + "esportivo");
+                    tipocarro = e.nextLine();
+                    System.out.println("Ano: ");
+                    ano = Integer.parseInt(e.nextLine());
+                    System.out.println("Numero de ocupantes: ");
+                    numocupantes = Integer.parseInt(e.nextLine());
+                    System.out.println("Km: ");
+                    km = Integer.parseInt(e.nextLine());
+                    System.out.println("Tipo de combustível: ");
+                    tipocombustivel = e.nextLine();
+                    System.out.println("Peso: ");
+                    peso = Integer.parseInt(e.nextLine());
+                    System.out.println("Potência: ");
+                    potencia = Integer.parseInt(e.nextLine());
+                    System.out.println("Altura: ");
+                    altu = Double.parseDouble(e.nextLine());
+                    System.out.println("Comprimento: ");
+                    comp = Double.parseDouble(e.nextLine());
+                    System.out.println("Largura: ");
+                    larg = Double.parseDouble(e.nextLine());
+                    System.out.println("Cilindradas: ");
+                    cilindradas = Integer.parseInt(e.nextLine());
+                    System.out.println("Preço: " + preco);
+                    preco = Double.parseDouble(e.nextLine());
+                    Carro carro = new Carro(numchassi, ano, km, peso, marca,
+                            modelo, tipocombustivel, 0, potencia,
+                            cilindradas, numocupantes, tipocarro, comp, larg, altu, preco);
+                    carros.add(carro);
             }
+
         }
     }
 
@@ -263,115 +304,6 @@ public class VendaVeiculo {
             System.exit(1);
         }
     }
-    public static void lerArqSeniors(FileReader arqRead){
-        try {
-            BufferedReader a = new BufferedReader(arqRead);
-            String linha = a.readLine();
-            vendSeniors.clear();
-            while (linha != null) {
-                nome = linha;
-                linha = a.readLine();
-                RG = Integer.parseInt(linha);
-                linha = a.readLine();
-                diaNasc = Integer.parseInt(linha);
-                linha = a.readLine();
-                mesNasc = Integer.parseInt(linha);
-                linha = a.readLine();
-                anoNasc = Integer.parseInt(linha);
-                linha = a.readLine();
-                diaAdm = Integer.parseInt(linha);
-                linha = a.readLine();
-                mesAdm = Integer.parseInt(linha);
-                linha = a.readLine();
-                anoAdm = Integer.parseInt(linha);
-                linha = a.readLine();
-                salario = Double.parseDouble(linha);
-                linha = a.readLine();
-                VendedorSenior senior = new VendedorSenior(RG, diaNasc, mesNasc, anoNasc, diaAdm,
-                        mesAdm, anoAdm, nome, salario);
-                vendSeniors.add(senior);
-            }
-        } catch (IOException ex) {//mistério
-            System.out.println("\n O programa será fechado, favor consultar a equipe de TI.\n ");
-            System.exit(1);
-        }
-    }
-    
-    public static void lerArqJuniors(FileReader arqRead){
-        try {
-            BufferedReader a = new BufferedReader(arqRead);
-            String linha = a.readLine();
-            vendJuniors.clear();
-            while (linha != null) {
-                nome = linha;
-                linha = a.readLine();
-                RG = Integer.parseInt(linha);
-                linha = a.readLine();
-                diaNasc = Integer.parseInt(linha);
-                linha = a.readLine();
-                mesNasc = Integer.parseInt(linha);
-                linha = a.readLine();
-                anoNasc = Integer.parseInt(linha);
-                linha = a.readLine();
-                diaAdm = Integer.parseInt(linha);
-                linha = a.readLine();
-                mesAdm = Integer.parseInt(linha);
-                linha = a.readLine();
-                anoAdm = Integer.parseInt(linha);
-                linha = a.readLine();
-                salario = Double.parseDouble(linha);
-                linha = a.readLine();
-                tempoRest = Integer.parseInt(linha);
-                linha = a.readLine(); 
-                responsavel = linha;
-                linha = a.readLine();                
-                vendedorJunior junior = new vendedorJunior(RG, diaNasc, mesNasc, anoNasc, diaAdm,
-                        mesAdm, anoAdm, nome, salario, tempoRest, responsavel);
-                vendJuniors.add(junior);
-            }
-        } catch (IOException ex) {//mistério
-            System.out.println("\n O programa será fechado, favor consultar a equipe de TI.\n ");
-            System.exit(1);
-        }
-    }
-   
-    public static void lerArqMotocicletas(FileReader arqRead){
-        try {
-            BufferedReader a = new BufferedReader(arqRead);
-            String linha = a.readLine();
-            vendJuniors.clear();
-            while (linha != null) {
-                numchassi = Integer.parseInt(linha);
-                linha = a.readLine();
-                ano = Integer.parseInt(linha);
-                linha = a.readLine();
-                quilometragem = Integer.parseInt(linha);
-                linha = a.readLine();
-                peso = Integer.parseInt(linha);
-                linha = a.readLine();
-                marca = linha;
-                linha = a.readLine();             
-                modelo = linha;
-                linha = a.readLine();                
-                tipocombustivel = linha;
-                linha = a.readLine();                                
-                status = Integer.parseInt(linha);
-                linha = a.readLine();
-                cilindradas = Integer.parseInt(linha);
-                linha = a.readLine();
-                moto = linha;
-                linha = a.readLine();   
-                preco = Double.parseDouble(linha);
-                linha = a.readLine();                
-                Motocicleta motocicleta = new Motocicleta(numchassi, ano, quilometragem, peso, marca,
-                        modelo, tipocombustivel, status, cilindradas, moto, preco);
-                motocicletas.add(motocicleta);
-            }
-        } catch (IOException ex) {//mistério
-            System.out.println("\n O programa será fechado, favor consultar a equipe de TI.\n ");
-            System.exit(1);
-        }
-    }        
 
     public static void arquivos() {
         try {
@@ -386,15 +318,15 @@ public class VendaVeiculo {
             File arqRelaGerente = new File("C:\\Users\\User\\Documents\\Programas Java\\vendaVeiculo\\src\\vendaveiculo\\banco\\relatorioGerente.txt");
 
             //objetos para escrita
-            FileWriter wArqCli = new FileWriter(arqCli, false);
-            FileWriter wArqGer = new FileWriter(arqGer, false);
-            FileWriter wArqSen = new FileWriter(arqSen, false);
-            FileWriter wArqJun = new FileWriter(arqJun, false);
-            FileWriter wArqCar = new FileWriter(arqCar, false);
-            FileWriter wArqMot = new FileWriter(arqMot, false);
-            FileWriter wArqVenda = new FileWriter(arqVenda, false);
-            FileWriter wArqRelaComum = new FileWriter(arqRelaComum, false);
-            FileWriter wArqRelaGerente = new FileWriter(arqRelaGerente, false);
+            FileWriter wArqCli = new FileWriter(arqCli, true);
+            FileWriter wArqGer = new FileWriter(arqGer, true);
+            FileWriter wArqSen = new FileWriter(arqSen, true);
+            FileWriter wArqJun = new FileWriter(arqJun, true);
+            FileWriter wArqCar = new FileWriter(arqCar, true);
+            FileWriter wArqMot = new FileWriter(arqMot, true);
+            FileWriter wArqVenda = new FileWriter(arqVenda, true);
+            FileWriter wArqRelaComum = new FileWriter(arqRelaComum, true);
+            FileWriter wArqRelaGerente = new FileWriter(arqRelaGerente, true);
 
             //objetos para leitura
             FileReader rArqCli = new FileReader(arqCli);
@@ -455,21 +387,21 @@ public class VendaVeiculo {
             }
             //verificando se é gerente
             for (i = 0; i < gerentes.size(); i++) {
-                if (auxLogin == gerentes.get(i).rg) {
+                if (auxLogin == gerentes.get(i).getRg()) {
                     opcLogin = 1;
                     break;
                 }
             }
             //verificando se é junior
             for (i = 0; i < vendJuniors.size(); i++) {
-                if (auxLogin == vendJuniors.get(i).rg) {
+                if (auxLogin == vendJuniors.get(i).getRg()) {
                     opcLogin = 3;
                     break;
                 }
             }
             //verificando se é senior
             for (i = 0; i < vendSeniors.size(); i++) {
-                if (auxLogin == vendSeniors.get(i).rg) {
+                if (auxLogin == vendSeniors.get(i).getRg()) {
                     opcLogin = 2;
                     break;
                 }
@@ -828,50 +760,40 @@ public class VendaVeiculo {
                             cadastraVeiculo();
                             break;
                         case 8:
-                           /* System.out.println("\n Alterar veículo \n");
+                            System.out.println("\n Alterar veículo \n");
                             System.out.println("Digite o numero do chassi: ");
                             numchassi = Integer.parseInt(e.nextLine());
                             achou = false;
                             for (i = 0; i < motocicletas.size() && achou == false; i++) {
-                                if (motocicletas.get(i).getCpf() == cpf) {
+                                if (motocicletas.get(i).getChassi() == numchassi) {
                                     achou = true;
+                                    if (achou) {
+                                        System.out.println("\n Digite a marca: \n");
+                                        motocicletas.get(i).setMarca(e.nextLine());
+                                        System.out.println("\n Digite o ano de fabricaçao: \n");
+                                        motocicletas.get(i).setAno(Integer.parseInt(e.nextLine()));
+                                        System.out.println("\n Digite o preço: \n");
+                                        motocicletas.get(i).setPreco(Double.parseDouble(e.nextLine()));
+                                    }
                                 }
                             }
-                            if (achou) {
-                                System.out.println("\n Digite o nome: \n");
-                                clientes.get(i - 1).setNome(e.nextLine());
-                                System.out.println("\n Digite o CPF: \n");
-                                clientes.get(i - 1).setCpf(Integer.parseInt(e.nextLine()));
-                                do {
-                                    System.out.println("\n Digite o dia de nascimento: \n");
-                                    diaNasc = Integer.parseInt(e.nextLine());
-                                } while (diaNasc < 1 || diaNasc > 31);
-                                do {
-                                    System.out.println("\n Digite o mes de nascimento: \n");
-                                    mesNasc = Integer.parseInt(e.nextLine());
-                                } while (mesNasc < 1 || mesNasc > 12);
-                                do {
-                                    System.out.println("\n Digite o ano de nascimento: \n");
-                                    anoNasc = Integer.parseInt(e.nextLine());
-                                } while (anoNasc < 1900 || anoNasc > 2017);
-                                dataNasc = new Data(diaNasc, mesNasc, anoNasc, 0, 0, 0);
-                                clientes.get(i - 1).setDataNasc(dataNasc);
-                                System.out.println("\n Digite a renda: \n");
-                                clientes.get(i - 1).setRenda(Double.parseDouble(e.nextLine()));
-                                System.out.println("\n Digite o número de dependentes: \n");
-                                clientes.get(i - 1).setDep(Integer.parseInt(e.nextLine()));
-                                System.out.println("\n Digite a rua: \n");
-                                clientes.get(i - 1).setRua(e.nextLine());
-                                System.out.println("\n Digite o numero da casa: \n");
-                                clientes.get(i - 1).setNumero(e.nextLine());
-                                System.out.println("\n Digite o bairro: \n");
-                                clientes.get(i - 1).setBairro(e.nextLine());
-                                System.out.println("\n Digite a cidade: \n");
-                                clientes.get(i - 1).setCidade(e.nextLine());
-                            } else {
-                                System.out.println("Cliente não cadastrado!");
+                            for (i = 0; i < carros.size() && achou == false; i++) {
+                                if (carros.get(i).getChassi() == numchassi) {
+                                    achou = true;
+                                    if (achou) {
+                                        System.out.println("\n Digite a marca: \n");
+                                        carros.get(i).setMarca(e.nextLine());
+                                        System.out.println("\n Digite o ano de fabricaçao: \n");
+                                        carros.get(i).setAno(Integer.parseInt(e.nextLine()));
+                                        System.out.println("\n Digite o preço: \n");
+                                        carros.get(i).setPreco(Double.parseDouble(e.nextLine()));
+                                    }
+                                }
                             }
-                         
+                            if (!achou) {
+                                System.out.println("Veículo não encontrado");
+                            }
+
                             break;
                         case 9:
                             System.out.println("\n Excluir veículo \n");
@@ -881,13 +803,17 @@ public class VendaVeiculo {
                             for (i = 0; i < carros.size() && achou == false; i++) {
                                 if (carros.get(i).getChassi() == numchassi) {
                                     achou = true;
-                                    carros.remove(i);
+                                    if (achou) {
+                                        carros.remove(i);
+                                    }
                                 }
                             }
                             for (i = 0; i < motocicletas.size() && achou == false; i++) {
                                 if (motocicletas.get(i).getChassi() == numchassi) {
                                     achou = true;
-                                    motocicletas.remove(i);
+                                    if (achou) {
+                                        motocicletas.remove(i);
+                                    }
                                 }
                             }
                             if (achou) {
@@ -901,34 +827,14 @@ public class VendaVeiculo {
                             realizarVenda();
                             break;
                         case 11:
-                            System.out.println("\n relatório comum: \n");
-                            System.out.println("\n=================================== * * ===================================");                           
-                            System.out.println("\n Carros: \n");
-                            for(int i=0;i<carros.size();i++){
-                                carros.get(i).getTudo();
-                            }
-                            
-                            System.out.println("\n\n=================================== * * ===================================");                           
-                            System.out.println("\n Motocicletas: \n");
-                            for(int i=0;i<motocicletas.size();i++){
-                                motocicletas.get(i).getTudo();
-                            }  
-                            
-                            System.out.println("\n\n=================================== * * ===================================");                           
-                            System.out.println("\n Clientes: \n");
-                            for(int i=0;i<clientes.size();i++){
-                                clientes.get(i).getTudo();
-                            }                            
-                            System.out.println("\n relatório completo \n");*/
+                            System.out.println("\n relatório completo \n");
                             break;
-
                     }
 
                 }//fim - while
             }//fim if
             if (opcLogin == 2 || opcLogin == 3) {//para o caso de vendedor
                 while (opcVen != -1) {
-
                     System.out.println("\n Menu: \n");
                     System.out.println("\n 1 p/ realizar uma venda: \n");
                     System.out.println("\n 2 p/ ver relatório parcial: \n");

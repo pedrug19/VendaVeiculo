@@ -22,75 +22,77 @@ public class Carro extends Veiculo {
         this.altu = altu;
         this.comp = comp;
         this.larg = larg;
-        if(tipoCarro.equals("SEDAN")){
+        if (tipoCarro.equals("SEDAN")) {
             enumtipocarro = Tipos.SEDAN;
         }
-        if(tipoCarro.equals("UTILITARIO")){
+        if (tipoCarro.equals("UTILITARIO")) {
             enumtipocarro = Tipos.UTILITARIO;
         }
-        if(tipoCarro.equals("PICKUP")){
+        if (tipoCarro.equals("PICKUP")) {
             enumtipocarro = Tipos.PICKUP;
         }
-        if(tipoCarro.equals("HATCH")){
+        if (tipoCarro.equals("HATCH")) {
             enumtipocarro = Tipos.HATCH;
         }
-        if(tipoCarro.equals("ESPORTIVO")){
+        if (tipoCarro.equals("ESPORTIVO")) {
             enumtipocarro = Tipos.ESPORTIVO;
         }
-        
+
     }
-    public String getTipoCarro(){
+
+    public String getTipoCarro() {
         return tipoCarro;
     }
-    
-    public void setPot(int potencia){
+
+    public void setPot(int potencia) {
         this.potencia = potencia;
     }
-    
-    public void setCilindros(int numcilindros){
+
+    public void setCilindros(int numcilindros) {
         this.numcilindros = numcilindros;
     }
-    
-    public void setNumOC(int numocupantes){
+
+    public void setNumOC(int numocupantes) {
         this.numocupantes = numocupantes;
     }
-    
-    public void setAltu(double altu){
+
+    public void setAltu(double altu) {
         this.altu = altu;
     }
-    
-    public void setComp(double comp){
+
+    public void setComp(double comp) {
         this.comp = comp;
     }
-    
-    public void setLarg(double larg){
+
+    public void setLarg(double larg) {
         this.larg = larg;
     }
-    
-    public int getPot(){
+
+    public int getPot() {
         return potencia;
     }
-    
-    public int getCilindros(){
+
+    public int getCilindros() {
         return numcilindros;
     }
-    
-    public int getNumOc(){
+
+    public int getNumOc() {
         return numocupantes;
     }
-    
-    public double getAlt(){
+
+    public double getAlt() {
         return altu;
     }
-    
-    public double getComp(){
+
+    public double getComp() {
         return comp;
     }
-    
-    public double getLarg(){
+
+    public double getLarg() {
         return larg;
     }
-    public void getTudo(){
+
+    public void getTudo() {
         System.out.println("Número do chassi: " + numchassi);
         System.out.println("Marca: " + marca);
         System.out.println("Numero de ocupantes: " + numocupantes);
