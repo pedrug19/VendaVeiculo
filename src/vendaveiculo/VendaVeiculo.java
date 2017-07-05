@@ -2,8 +2,6 @@ package vendaveiculo;
 
 import java.util.*;
 import java.io.*;
-import java.time.*;
-import java.text.*;
 
 /*
 Autores: Gustavo Molina
@@ -12,24 +10,96 @@ Pedrenrique Gonçalves
  */
 public class VendaVeiculo {
 
-    //System.out.println(LocalDate.now());
-    //LocalDate localDate = LocalDate.now();
-    //System.out.println(DateTimeFormatter.ofPattern("yyy/MM/dd").format(localDate));
-    public static void main(String[] args) {
+    //listas
+    static ArrayList<vendedorJunior> vendJuniors = new ArrayList<>();
+    static ArrayList<VendedorSenior> vendSeniors = new ArrayList<>();
+    static ArrayList<VendedorGerente> gerentes = new ArrayList<>();
+    static ArrayList<Carro> carros = new ArrayList<>();
+    static ArrayList<Motocicleta> motocicletas = new ArrayList<>();
+    static ArrayList<Cliente> clientes = new ArrayList<>();
 
-        int opcLogin = 0, opcGer = 0, opcVen = 0, auxLogin, i;
-        int cpfCliente = 0, numchassi = 0, rgVendedor, veriCli = 0, veriVei = 0;
-        int opcCad = 0, indiceVen, j = 0, indiceClient;
+    static int opcLogin = 0, opcGer = 0, opcVen = 0, auxLogin, i;
+    static int cpfCliente = 0, numchassi = 0, rgVendedor, veriCli = 0, veriVei = 0;
+    static int opcCad = 0, indiceVen, j = 0, indiceClient;
 
-        int RG, diaNasc = 0, mesNasc = 0, anoNasc = 0, diaAdm = 0, mesAdm = 0, anoAdm = 0, tempoRest;
-        String nome, responsavel, numero, bairro, rua, cidade;
-        double salario;
+    static int RG, diaNasc = 0, mesNasc = 0, anoNasc = 0, diaAdm = 0, mesAdm = 0, anoAdm = 0, tempoRest, cpf, dependentes;
+    static String nome, responsavel, numero, bairro, rua, cidade;
+    static double salario, renda;
 
-        boolean achou = false;
+    static Data dataNasc;
 
-        Scanner e = new Scanner(System.in);
+    public static void lerArqClientes(FileReader arqRead) {
+        try {
+            BufferedReader a = new BufferedReader(arqRead);
+            String linha = a.readLine();
+            clientes.clear();
+            while (linha != null) {
+                nome = linha;
+                linha = a.readLine();
+                cpf = Integer.parseInt(linha);
+                linha = a.readLine();
+                diaNasc = Integer.parseInt(linha);
+                linha = a.readLine();
+                mesNasc = Integer.parseInt(linha);
+                linha = a.readLine();
+                anoNasc = Integer.parseInt(linha);
+                linha = a.readLine();
+                renda = Double.parseDouble(linha);
+                linha = a.readLine();
+                dependentes = Integer.parseInt(linha);
+                linha = a.readLine();
+                rua = linha;
+                linha = a.readLine();
+                numero = linha;
+                linha = a.readLine();
+                bairro = linha;
+                linha = a.readLine();
+                cidade = linha;
+                linha = a.readLine();
+                Cliente cliente = new Cliente(cpf, renda, dependentes, diaNasc, mesNasc, anoNasc, nome, rua, numero, bairro, cidade);
+                clientes.add(cliente);
+            }
+        } catch (IOException ex) {//mistério
+            System.out.println("\n O programa será fechado, favor consultar a equipe de TI.\n ");
+            System.exit(1);
+        }
+    }
 
-        //arquivos a serem usados//
+    public static void lerArqGerentes(FileReader arqRead) {
+        try {
+            BufferedReader a = new BufferedReader(arqRead);
+            String linha = a.readLine();
+            clientes.clear();
+            while (linha != null) {
+                nome = linha;
+                linha = a.readLine();
+                RG = Integer.parseInt(linha);
+                linha = a.readLine();
+                diaNasc = Integer.parseInt(linha);
+                linha = a.readLine();
+                mesNasc = Integer.parseInt(linha);
+                linha = a.readLine();
+                anoNasc = Integer.parseInt(linha);
+                linha = a.readLine();
+                diaAdm = Integer.parseInt(linha);
+                linha = a.readLine();
+                mesAdm = Integer.parseInt(linha);
+                linha = a.readLine();
+                anoAdm = Integer.parseInt(linha);
+                linha = a.readLine();
+                salario = Double.parseDouble(linha);
+                linha = a.readLine();
+                VendedorGerente gerente = new VendedorGerente(RG, diaNasc, mesNasc, anoNasc, diaAdm,
+                        mesAdm, anoAdm, nome, salario);
+                gerentes.add(gerente);
+            }
+        } catch (IOException ex) {//mistério
+            System.out.println("\n O programa será fechado, favor consultar a equipe de TI.\n ");
+            System.exit(1);
+        }
+    }
+
+    public static void arquivos() {
         try {
             File arqCli = new File("C:\\Users\\User\\Documents\\Programas Java\\vendaVeiculo\\src\\vendaveiculo\\banco\\clientes.txt");
             File arqGer = new File("C:\\Users\\User\\Documents\\Programas Java\\vendaVeiculo\\src\\vendaveiculo\\banco\\gerentes.txt");
@@ -66,6 +136,9 @@ public class VendaVeiculo {
             if (!arqCli.canRead() || !arqGer.canRead() || !arqSen.canRead() || !arqJun.canRead() || !arqCar.canRead()
                     || !arqVenda.canRead() || !arqMot.canRead()) {
                 System.out.println("\n Arquivos do banco não podem ser lidos!");
+            } else {
+                lerArqClientes(rArqCli);
+                lerArqGerentes(rArqGer);
             }
         } catch (IOException ex) {//mistério
 
@@ -73,13 +146,19 @@ public class VendaVeiculo {
             System.exit(1);
 
         }
-        //listas
-        ArrayList<vendedorJunior> vendJuniors = new ArrayList<>();
-        ArrayList<VendedorSenior> vendSeniors = new ArrayList<>();
-        ArrayList<VendedorGerente> gerentes = new ArrayList<>();
-        ArrayList<Carro> carros = new ArrayList<>();
-        ArrayList<Motocicleta> motocicletas = new ArrayList<>();
-        ArrayList<Cliente> clientes = new ArrayList<>();
+    }
+
+    //System.out.println(LocalDate.now());
+    //LocalDate localDate = LocalDate.now();
+    //System.out.println(DateTimeFormatter.ofPattern("yyy/MM/dd").format(localDate));
+    public static void main(String[] args) {
+
+        boolean achou = false;
+
+        Scanner e = new Scanner(System.in);
+
+        //Criando e lendo arquivos
+        arquivos();
 
         //Instanciando um gerente administrador
         VendedorGerente gerenteMaster;
@@ -240,30 +319,30 @@ public class VendaVeiculo {
                             nome = e.nextLine();
                             System.out.println("\n Digite o novo RG: \n");
                             RG = Integer.parseInt(e.nextLine());
-                            while (diaNasc < 1 || diaNasc > 31) {
+                            do {
                                 System.out.println("\n Digite o novo dia de nascimento: \n");
                                 diaNasc = Integer.parseInt(e.nextLine());
-                            }
-                            while (diaNasc < 1 || diaNasc > 12) {
+                            } while (diaNasc < 1 || diaNasc > 31);
+                            do {
                                 System.out.println("\n Digite o novo mes de nascimento: \n");
                                 mesNasc = Integer.parseInt(e.nextLine());
-                            }
-                            while (anoNasc < 1900 || anoNasc > 2017) {
+                            } while (mesNasc < 1 || mesNasc > 12);
+                            do {
                                 System.out.println("\n Digite o novo ano de nascimento: \n");
                                 anoNasc = Integer.parseInt(e.nextLine());
-                            }
-                            while (diaAdm < 1 || diaAdm > 31) {
+                            } while (anoNasc < 1900 || anoNasc > 2017);
+                            do {
                                 System.out.println("\n Digite o novo dia de admissão: \n");
                                 diaAdm = Integer.parseInt(e.nextLine());
-                            }
-                            while (mesAdm < 1 || mesAdm > 12) {
+                            } while (diaAdm < 1 || diaAdm > 31);
+                            do {
                                 System.out.println("\n Digite o novo mes de admissão: \n");
                                 mesAdm = Integer.parseInt(e.nextLine());
-                            }
-                            while (anoAdm < 1980 || anoAdm > 2017) {
+                            } while (mesAdm < 1 || mesAdm > 12);
+                            do {
                                 System.out.println("\n Digite o novo ano de admissão: \n");
                                 anoAdm = Integer.parseInt(e.nextLine());
-                            }
+                            } while (anoAdm < 1980 || anoAdm > 2017);
                             System.out.println("\n Digite o novo salário: \n");
                             salario = Double.parseDouble(e.nextLine());
 
@@ -347,7 +426,7 @@ public class VendaVeiculo {
                                         System.out.println("\n Vendedor removido! \n");
                                     }
                                 }
-                                if(!achou){
+                                if (!achou) {
                                     System.out.println("\n Vendedor não encontrado! \n");
                                 }
                             }
@@ -360,7 +439,7 @@ public class VendaVeiculo {
                                         System.out.println("\n Vendedor removido! \n");
                                     }
                                 }
-                                if(!achou){
+                                if (!achou) {
                                     System.out.println("\n Vendedor não encontrado! \n");
                                 }
 
@@ -373,7 +452,7 @@ public class VendaVeiculo {
                                         System.out.println("\n Vendedor removido! \n");
                                     }
                                 }
-                                if(!achou){
+                                if (!achou) {
                                     System.out.println("\n Vendedor não encontrado! \n");
                                 }
                             }
@@ -382,23 +461,96 @@ public class VendaVeiculo {
 
                         case 4:
                             System.out.println("\n Cadastrar cliente \n");
+                            System.out.println("\n Digite o nome: \n");
+                            nome = e.nextLine();
+                            System.out.println("\n Digite o CPF: \n");
+                            cpf = Integer.parseInt(e.nextLine());
+                            do {
+                                System.out.println("\n Digite o dia de nascimento: \n");
+                                diaNasc = Integer.parseInt(e.nextLine());
+                            } while (diaNasc < 1 || diaNasc > 31);
+                            do {
+                                System.out.println("\n Digite o mes de nascimento: \n");
+                                mesNasc = Integer.parseInt(e.nextLine());
+                            } while (mesNasc < 1 || mesNasc > 12);
+                            do {
+                                System.out.println("\n Digite o ano de nascimento: \n");
+                                anoNasc = Integer.parseInt(e.nextLine());
+                            } while (anoNasc < 1900 || anoNasc > 2017);
+
+                            System.out.println("\n Digite a renda: \n");
+                            renda = Double.parseDouble(e.nextLine());
+                            System.out.println("\n Digite o número de dependentes: \n");
+                            dependentes = Integer.parseInt(e.nextLine());
+                            System.out.println("\n Digite a rua: \n");
+                            rua = e.nextLine();
+                            System.out.println("\n Digite o numero da casa: \n");
+                            numero = e.nextLine();
+                            System.out.println("\n Digite o bairro: \n");
+                            bairro = e.nextLine();
+                            System.out.println("\n Digite a cidade: \n");
+                            cidade = e.nextLine();
+                            cliente = new Cliente(cpf, renda, dependentes, diaNasc, mesNasc, anoNasc, nome, rua, numero, bairro, cidade);
+                            clientes.add(cliente);
                             break;
                         case 5:
                             System.out.println("\n Alterar cliente \n");
+                            System.out.println("Digite o CPF do cliente a ser alterado: ");
+                            cpf = Integer.parseInt(e.nextLine());
+                            achou = false;
+                            for (i = 0; i < clientes.size() && achou == false; i++) {
+                                if (clientes.get(i).getCpf() == cpf) {
+                                    achou = true;
+                                }
+                            }
+                            if (achou) {
+                                System.out.println("\n Digite o nome: \n");
+                                clientes.get(i - 1).setNome(e.nextLine());
+                                System.out.println("\n Digite o CPF: \n");
+                                clientes.get(i - 1).setCpf(Integer.parseInt(e.nextLine()));
+                                do {
+                                    System.out.println("\n Digite o dia de nascimento: \n");
+                                    diaNasc = Integer.parseInt(e.nextLine());
+                                } while (diaNasc < 1 || diaNasc > 31);
+                                do {
+                                    System.out.println("\n Digite o mes de nascimento: \n");
+                                    mesNasc = Integer.parseInt(e.nextLine());
+                                } while (mesNasc < 1 || mesNasc > 12);
+                                do {
+                                    System.out.println("\n Digite o ano de nascimento: \n");
+                                    anoNasc = Integer.parseInt(e.nextLine());
+                                } while (anoNasc < 1900 || anoNasc > 2017);
+                                dataNasc = new Data(diaNasc, mesNasc, anoNasc, 0, 0, 0);
+                                clientes.get(i - 1).setDataNasc(dataNasc);
+                                System.out.println("\n Digite a renda: \n");
+                                clientes.get(i - 1).setRenda(Double.parseDouble(e.nextLine()));
+                                System.out.println("\n Digite o número de dependentes: \n");
+                                clientes.get(i - 1).setDep(Integer.parseInt(e.nextLine()));
+                                System.out.println("\n Digite a rua: \n");
+                                clientes.get(i - 1).setRua(e.nextLine());
+                                System.out.println("\n Digite o numero da casa: \n");
+                                clientes.get(i - 1).setNumero(e.nextLine());
+                                System.out.println("\n Digite o bairro: \n");
+                                clientes.get(i - 1).setBairro(e.nextLine());
+                                System.out.println("\n Digite a cidade: \n");
+                                clientes.get(i - 1).setCidade(e.nextLine());
+                            } else {
+                                System.out.println("Cliente não cadastrado!");
+                            }
                             break;
                         case 6:
                             System.out.println("\n Excluir cliente \n");
-                            System.out.println("Digite o CPF do cliente:");
+                            System.out.println("Digite o CPF do cliente a ser removido:");
                             indiceClient = Integer.parseInt(e.nextLine());
                             achou = false;
-                            for(i = 0; i < clientes.size() && achou == false; i++){
-                                if(clientes.get(i).getCpf() == indiceClient){
+                            for (i = 0; i < clientes.size() && achou == false; i++) {
+                                if (clientes.get(i).getCpf() == indiceClient) {
                                     achou = true;
                                     clientes.remove(i);
                                     System.out.println("Cliente removido com sucesso!");
                                 }
                             }
-                            if(!achou){
+                            if (!achou) {
                                 System.out.println("Cliente não encontrado.");
                             }
                             break;
@@ -413,19 +565,19 @@ public class VendaVeiculo {
                             System.out.println("Digite o número do chassi do veículo: ");
                             numchassi = Integer.parseInt(e.nextLine());
                             achou = false;
-                            for(i = 0; i < carros.size() && achou == false; i++){
-                                if(carros.get(i).getChassi() == numchassi){
+                            for (i = 0; i < carros.size() && achou == false; i++) {
+                                if (carros.get(i).getChassi() == numchassi) {
                                     achou = true;
                                     carros.remove(i);
                                 }
                             }
-                            for(i = 0; i < motocicletas.size() && achou == false; i++) {
-                                if(motocicletas.get(i).getChassi() == numchassi){
+                            for (i = 0; i < motocicletas.size() && achou == false; i++) {
+                                if (motocicletas.get(i).getChassi() == numchassi) {
                                     achou = true;
                                     motocicletas.remove(i);
                                 }
                             }
-                            if(achou){
+                            if (achou) {
                                 System.out.println("Veículo removido com sucesso!");
                             } else {
                                 System.out.println("Veículo não encontrado.");
@@ -531,7 +683,7 @@ public class VendaVeiculo {
                                 System.out.println("\n A venda será feita: \n");
                                 System.out.println("\n RG vendedor:" + rgVendedor + "\n");
                                 System.out.println("\n CPF cliente:" + cpfCliente + "\n");
-                                System.out.println("\n número do chassi:" + numchassi + "\n");
+                                System.out.println("\n Número do chassi:" + numchassi + "\n");
                                 //colocar em outro .txt os dados acima;
                             }
 
@@ -549,4 +701,3 @@ public class VendaVeiculo {
         System.out.println("\n Saindo...\n");
     }
 }
-

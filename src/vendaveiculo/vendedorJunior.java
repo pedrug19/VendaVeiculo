@@ -23,7 +23,7 @@ public class vendedorJunior extends Vendedor {
 
     }
 
-    public void setTempoRest(String responsavel) {
+    public void setResponsavel(String responsavel) {
         this.responsavel = responsavel;
 
     }

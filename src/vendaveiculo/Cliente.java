@@ -20,6 +20,42 @@ public class Cliente {
         this.cidade = cidade;
     }
 
+    public void setCpf(int cpf) {
+        this.CPF = cpf;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setDataNasc(Data datanasc) {
+        this.datanasc = datanasc;
+    }
+
+    public void setRua(String rua) {
+        this.rua = rua;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+    
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+    
+    public void setRenda(double renda) {
+        this.renda = renda;
+    }
+    
+    public void setDep(int dependentes){
+        this.dependentes = dependentes;
+    }
+
     public double getRenda() {
         return renda;
     }
@@ -42,8 +78,8 @@ public class Cliente {
 
         return desconto;
     }
-    
-    public int getCpf(){
+
+    public int getCpf() {
         return CPF;
     }
 }

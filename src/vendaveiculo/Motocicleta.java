@@ -16,4 +16,19 @@ public class Motocicleta extends Veiculo {
         this.cilindradas = cilindradas;
         this.motocicleta = motocicleta;
     }
+    
+    public void setCil(int cilindradas){
+        this.cilindradas = cilindradas;
+    }
+    public void setMoto(TipoMotocicleta motocicleta){
+        this.motocicleta = motocicleta;
+    }
+    
+    public int getCil(){
+        return cilindradas;
+    }
+    
+    public TipoMotocicleta getMoto(){
+        return motocicleta;
+    }
 }

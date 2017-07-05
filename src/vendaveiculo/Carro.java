@@ -23,4 +23,52 @@ public class Carro extends Veiculo {
         this.larg = larg;
 
     }
+    
+    public void setPot(int potencia){
+        this.potencia = potencia;
+    }
+    
+    public void setCilindros(int numcilindros){
+        this.numcilindros = numcilindros;
+    }
+    
+    public void setNumOC(int numocupantes){
+        this.numocupantes = numocupantes;
+    }
+    
+    public void setAltu(double altu){
+        this.altu = altu;
+    }
+    
+    public void setComp(double comp){
+        this.comp = comp;
+    }
+    
+    public void setLarg(double larg){
+        this.larg = larg;
+    }
+    
+    public int getPot(){
+        return potencia;
+    }
+    
+    public int getCilindros(){
+        return numcilindros;
+    }
+    
+    public int getNumOc(){
+        return numocupantes;
+    }
+    
+    public double getAlt(){
+        return altu;
+    }
+    
+    public double getComp(){
+        return comp;
+    }
+    
+    public double getLarg(){
+        return larg;
+    }
 }

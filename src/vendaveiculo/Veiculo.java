@@ -25,6 +25,58 @@ public abstract class Veiculo {
         }
     }
     
+    public void setNumChassi(int numchassi){
+        this.numchassi = numchassi;
+    }
+    
+    public void setAno(int ano){
+        this.ano = ano;
+    }
+    
+    public void setKm(int quilometragem){
+        this.quilometragem = quilometragem;
+    }
+    
+    public void setPeso(int peso){
+        this.peso = peso;
+    }
+    
+    public void setMarca(String marca){
+        this.marca = marca;
+    }
+    
+    public void setTipo(String tipo){
+        this.tipocombustivel = tipo;
+    }
+    
+    public void setStatus(int status){
+        this.status = status;
+    }
+    
+    public int getAno(){
+        return ano;
+    }
+    
+    public int getKm(){
+        return quilometragem;
+    }
+    
+    public int getPeso(){
+        return peso;
+    }
+    
+    public String getMarca(){
+        return marca;
+    }
+    
+    public String getTipo(){
+        return tipocombustivel;
+    }
+    
+    public int getStatus(){
+        return status;
+    }
+    
     public int getChassi(){
         return numchassi;
     }
