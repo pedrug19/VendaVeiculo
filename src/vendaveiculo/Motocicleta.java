@@ -3,7 +3,7 @@ package vendaveiculo;
 public class Motocicleta extends Veiculo {
 
     private int cilindradas;
-    private String tipomoto;
+    private String tipomoto,motocicleta;
 
     public enum TipoMotocicleta {
         TRAIL, STREET, ESPORTIVA, CUSTOM
@@ -12,24 +12,23 @@ public class Motocicleta extends Veiculo {
 
     public Motocicleta(int numchassi, int ano, int quilometragem, int peso,
             String marca, String modelo, String tipocombustivel, int status,
-            int cilindradas, TipoMotocicleta motocicleta, double preco) {
+            int cilindradas, String motocicleta, double preco) {
         super(numchassi, ano, quilometragem, peso, marca, modelo, tipocombustivel, status, preco);
         this.cilindradas = cilindradas;
-        this.enummotocicleta = motocicleta;
-        switch (enummotocicleta){
-                case TRAIL:
-                    tipomoto = "Trail";
-                    break;
-                case STREET:
-                    tipomoto = "Street";
-                    break;
-                case ESPORTIVA:
-                    tipomoto = "Esportiva";
-                    break;
-                case CUSTOM:
-                    tipomoto = "Custom";
-                    break;
+        this.motocicleta = motocicleta;
+        if(motocicleta.equals("TRAIL")){
+            enummotocicleta = TipoMotocicleta.TRAIL;
         }
+        if(motocicleta.equals("STREET")){
+         enummotocicleta = TipoMotocicleta.STREET;   
+        }
+        if(motocicleta.equals("ESPORTIVA")){
+         enummotocicleta = TipoMotocicleta.ESPORTIVA;   
+        }
+        if(motocicleta.equals("CUSTOM")){
+         enummotocicleta = TipoMotocicleta.CUSTOM;   
+        }
+        
     }
     
     public String getTipoMoto(){
@@ -61,10 +60,9 @@ public class Motocicleta extends Veiculo {
     }
     
     public TipoMotocicleta getMoto(){
-        return motocicleta;
+        return enummotocicleta;
     }
     
-    @Override
     public void getTudo(){
         System.out.println("Número do chassi: " + numchassi);
         System.out.println("Marca: " + marca);

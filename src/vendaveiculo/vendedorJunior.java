@@ -37,4 +37,14 @@ public class vendedorJunior extends Vendedor {
         return responsavel;
 
     }
+    
+    public void getTudo(){
+        System.out.println("Nome: " + nome);
+        System.out.println("Data de nascimento: " + diaNasc + "/" + mesNasc + "/" + anoNasc);
+        System.out.println("RG: " + rg);
+        System.out.println("Data de admissão: "  + diaAdm + "/" + mesAdm + "/" + anoAdm);
+        System.out.println("Salário: " + salario);
+        System.out.println("Responsável: " + responsavel);
+        System.out.println("Tempo restante: " + tempoRest);
+    }
 }

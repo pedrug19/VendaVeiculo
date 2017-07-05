@@ -90,5 +90,7 @@ public abstract class Vendedor {
     public double getSalario() {
         return salario;
     }
+    
+    public abstract void getTudo();
 
 }

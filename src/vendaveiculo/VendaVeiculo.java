@@ -17,7 +17,7 @@ public class VendaVeiculo {
     static ArrayList<Carro> carros = new ArrayList<>();
     static ArrayList<Motocicleta> motocicletas = new ArrayList<>();
     static ArrayList<Cliente> clientes = new ArrayList<>();
-    
+
     static Scanner e = new Scanner(System.in);
 
     static int opcLogin = 0, opcGer = 0, opcVen = 0, auxLogin, i;
@@ -31,6 +31,9 @@ public class VendaVeiculo {
     static Data dataNasc;
 
     public static void realizarVenda() {
+        int option = 0;
+        int continua = 0;
+        int veiculo = 0;
         System.out.println("\n Realizar venda \n");
         System.out.println("\n Venda: \n");
         if (clientes.isEmpty() || carros.isEmpty() || motocicletas.isEmpty()) {
@@ -42,7 +45,8 @@ public class VendaVeiculo {
             cpf = Integer.parseInt(e.nextLine());
             for (i = 0; i < clientes.size() && veriCli == 0; i++) {
                 if (cpf == clientes.get(i).getCpf()) {
-                    veriCli = i;
+                    veriCli = 1;
+                    indiceClient = i;
                     System.out.println("\n CPF encontrado! \n");
                 }
             }
@@ -54,24 +58,89 @@ public class VendaVeiculo {
                 numchassi = Integer.parseInt(e.nextLine());
                 for (i = 0; i < carros.size() && veriVei == 0; i++) {
                     if (numchassi == carros.get(i).getChassi()) {
-                        veriVei = i;
+                        veriVei = 1;
+                        veiculo = i;
                         System.out.println("\n Número do carro encontrado! \n");
                         System.out.println("Detalhes do carro: ");
-                        carros.get(veriVei).getTudo();
-                        if (carros.get(veriVei).verificaStatus()) {
+                        carros.get(veiculo).getTudo();
+                        if (carros.get(veiculo).verificaStatus()) {
                             System.out.println("Veículo já foi vendido!");
                         } else {
-                            carros.get(veriVei).setStatus(1);
-                            System.out.println("Realizando venda para " + clientes.get(veriCli).getNome());
-                            preco = carros.get(veriCli).getPreco();
-                            System.out.println("");
+                            carros.get(veiculo).setStatus(1);
+                            System.out.println("Realizando venda para " + clientes.get(indiceClient).getNome());
+                            preco = carros.get(veiculo).getPreco();
+                            while (continua == 0) {
+                                System.out.println("Digite a opção desejada: ");
+                                System.out.println("1 - a vista");
+                                System.out.println("2 - a prazo");
+                                option = Integer.parseInt(e.nextLine());
+                                switch (option) {
+                                    case 1:
+                                        System.out.println("Venda à vista sairá por: ");
+                                        System.out.println(clientes.get(indiceClient).getDesconto(preco));
+                                        System.out.println("Continuar? 0 - Não. 1 - Sim");
+                                        continua = Integer.parseInt(e.nextLine());
+                                        if (continua == 1) {
+                                            carros.get(veiculo).setStatus(1);
+                                            System.out.println("Venda realizada com sucesso!");
+                                        }
+                                        break;
+                                    case 2:
+                                        System.out.println("À prazo, teremos parcelas de: ");
+                                        clientes.get(indiceClient).getParcelas(preco);
+                                        System.out.println("Continuar? 0 - Não. 1 - Sim");
+                                        continua = Integer.parseInt(e.nextLine());
+                                        if (continua == 1) {
+                                            carros.get(veiculo).setStatus(1);
+                                            System.out.println("Venda realizada com sucesso!");
+                                        }
+                                }
+                            }
                         }
                     }
                 }
                 for (i = 0; i < motocicletas.size() && veriVei == 0; i++) {
                     if (numchassi == motocicletas.get(i).getChassi()) {
                         veriVei = 1;
+                        veiculo = i;
                         System.out.println("\n Número da moto encontrado! \n");
+                        System.out.println("Detalhes da moto: ");
+                        motocicletas.get(veiculo).getTudo();
+                        if (carros.get(veiculo).verificaStatus()) {
+                            System.out.println("Veículo já foi vendido!");
+                        } else {
+                            carros.get(i).setStatus(1);
+                            System.out.println("Realizando venda para " + clientes.get(indiceClient).getNome());
+                            preco = carros.get(veiculo).getPreco();
+                            while (continua == 0) {
+                                System.out.println("Digite a opção desejada: ");
+                                System.out.println("1 - a vista");
+                                System.out.println("2 - a prazo");
+                                option = Integer.parseInt(e.nextLine());
+                                switch (option) {
+                                    case 1:
+                                        System.out.println("Venda à vista sairá por: ");
+                                        System.out.println(clientes.get(indiceClient).getDesconto(preco));
+                                        System.out.println("Continuar? 0 - Não. 1 - Sim");
+                                        continua = Integer.parseInt(e.nextLine());
+                                        if (continua == 1) {
+                                            carros.get(veiculo).setStatus(1);
+                                            System.out.println("Venda realizada com sucesso!");
+                                        }
+                                        break;
+                                    case 2:
+                                        System.out.println("À prazo, teremos parcelas de: ");
+                                        clientes.get(indiceClient).getParcelas(preco);
+                                        System.out.println("Continuar? 0 - Não. 1 - Sim");
+                                        continua = Integer.parseInt(e.nextLine());
+                                        if (continua == 1) {
+                                            carros.get(veiculo).setStatus(1);
+                                            System.out.println("Venda realizada com sucesso!");
+                                        }
+                                }
+                            }
+                        }
+
                     }
                 }
                 if (veriVei == 0) {
@@ -81,9 +150,47 @@ public class VendaVeiculo {
         }
 
     }
-    
-    public static void cadastraVeiculo(){
-        
+
+    public static void cadastraVeiculo() {
+        int opcVeiculo = 0, ano, peso, cilindradas, km;
+        String marca, tipomoto, tipocombustivel, modelo;
+        System.out.println("Escolha o que deseja cadastrar: ");
+        System.out.println("1 - Moto");
+        System.out.println("2 - Carro");
+        opcVeiculo = Integer.parseInt(e.nextLine());
+        while (opcVeiculo != -1) {
+            switch (opcVeiculo) {
+                case 1:
+                    System.out.println("Cadastrando moto: ");
+                    System.out.println("Número do chassi: ");
+                    numchassi = Integer.parseInt(e.nextLine());
+                    System.out.println("Marca: ");
+                    marca = e.nextLine();
+                    System.out.println("Modelo: ");
+                    modelo = e.nextLine();
+                    System.out.println("Tipo: (trail, street, esportiva, custom)");
+                    tipomoto = e.nextLine();
+                    System.out.println("Ano: ");
+                    ano = Integer.parseInt(e.nextLine());
+                    System.out.println("Tipo: ");
+                    tipomoto = e.nextLine();
+                    System.out.println("Km: ");
+                    km = Integer.parseInt(e.nextLine());
+                    System.out.println("Tipo de combustível: ");
+                    tipocombustivel = e.nextLine();
+                    System.out.println("Peso: ");
+                    peso = Integer.parseInt(e.nextLine());
+                    System.out.println("Cilindradas: ");
+                    cilindradas = Integer.parseInt(e.nextLine());
+                    System.out.println("Preço: " + preco);
+                    preco = Double.parseDouble(e.nextLine());
+                    Motocicleta moto = new Motocicleta(numchassi, ano, km, peso,
+                            marca, modelo, tipocombustivel, 0,
+                            cilindradas, tipomoto, preco);
+                    motocicletas.add(moto);
+                    break;
+            }
+        }
     }
 
     public static void lerArqClientes(FileReader arqRead) {
@@ -227,10 +334,6 @@ public class VendaVeiculo {
             System.exit(1);
         }
     }
-
-    public static void lerArqCarros(FileReader arqCar){
-        
-    }
    
     public static void lerArqMotocicletas(FileReader arqRead){
         try {
@@ -268,8 +371,8 @@ public class VendaVeiculo {
             System.out.println("\n O programa será fechado, favor consultar a equipe de TI.\n ");
             System.exit(1);
         }
-    }
-    
+    }        
+
     public static void arquivos() {
         try {
             File arqCli = new File("C:\\Users\\User\\Documents\\Programas Java\\vendaVeiculo\\src\\vendaveiculo\\banco\\clientes.txt");
@@ -722,9 +825,53 @@ public class VendaVeiculo {
                             break;
                         case 7:
                             System.out.println("\n Cadastrar veículo \n");
+                            cadastraVeiculo();
                             break;
                         case 8:
-                            System.out.println("\n Alterar veículo \n");
+                           /* System.out.println("\n Alterar veículo \n");
+                            System.out.println("Digite o numero do chassi: ");
+                            numchassi = Integer.parseInt(e.nextLine());
+                            achou = false;
+                            for (i = 0; i < motocicletas.size() && achou == false; i++) {
+                                if (motocicletas.get(i).getCpf() == cpf) {
+                                    achou = true;
+                                }
+                            }
+                            if (achou) {
+                                System.out.println("\n Digite o nome: \n");
+                                clientes.get(i - 1).setNome(e.nextLine());
+                                System.out.println("\n Digite o CPF: \n");
+                                clientes.get(i - 1).setCpf(Integer.parseInt(e.nextLine()));
+                                do {
+                                    System.out.println("\n Digite o dia de nascimento: \n");
+                                    diaNasc = Integer.parseInt(e.nextLine());
+                                } while (diaNasc < 1 || diaNasc > 31);
+                                do {
+                                    System.out.println("\n Digite o mes de nascimento: \n");
+                                    mesNasc = Integer.parseInt(e.nextLine());
+                                } while (mesNasc < 1 || mesNasc > 12);
+                                do {
+                                    System.out.println("\n Digite o ano de nascimento: \n");
+                                    anoNasc = Integer.parseInt(e.nextLine());
+                                } while (anoNasc < 1900 || anoNasc > 2017);
+                                dataNasc = new Data(diaNasc, mesNasc, anoNasc, 0, 0, 0);
+                                clientes.get(i - 1).setDataNasc(dataNasc);
+                                System.out.println("\n Digite a renda: \n");
+                                clientes.get(i - 1).setRenda(Double.parseDouble(e.nextLine()));
+                                System.out.println("\n Digite o número de dependentes: \n");
+                                clientes.get(i - 1).setDep(Integer.parseInt(e.nextLine()));
+                                System.out.println("\n Digite a rua: \n");
+                                clientes.get(i - 1).setRua(e.nextLine());
+                                System.out.println("\n Digite o numero da casa: \n");
+                                clientes.get(i - 1).setNumero(e.nextLine());
+                                System.out.println("\n Digite o bairro: \n");
+                                clientes.get(i - 1).setBairro(e.nextLine());
+                                System.out.println("\n Digite a cidade: \n");
+                                clientes.get(i - 1).setCidade(e.nextLine());
+                            } else {
+                                System.out.println("Cliente não cadastrado!");
+                            }
+                         
                             break;
                         case 9:
                             System.out.println("\n Excluir veículo \n");
@@ -772,6 +919,7 @@ public class VendaVeiculo {
                             for(int i=0;i<clientes.size();i++){
                                 clientes.get(i).getTudo();
                             }                            
+                            System.out.println("\n relatório completo \n");*/
                             break;
 
                     }
