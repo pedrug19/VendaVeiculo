@@ -9,5 +9,14 @@ public class VendedorGerente extends Vendedor {
         this.salario = (1.02 * salario) * data.getMesesTrab() * 2;
 
     }
+    
+    @Override
+    public void getTudo(){
+        System.out.println("Nome: " + nome);
+        System.out.println("Data de nascimento: " + diaNasc + "/" + mesNasc + "/" + anoNasc);
+        System.out.println("RG: " + rg);
+        System.out.println("Data de admissão: "  + diaAdm + "/" + mesAdm + "/" + anoAdm);
+        System.out.println("Salário: " + salario);
+    }
 
 }

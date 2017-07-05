@@ -6,6 +6,8 @@ public class Cliente {
     private double renda, desconto;
     private String nome, rua, numero, bairro, cidade;
     private Data datanasc;
+    private double juros = 0;
+    double parcelas = 0;
 
     public Cliente(int CPF, double renda, int dependentes, int dianasc, int mesnasc,
             int anonasc, String nome, String rua, String numero, String bairro, String cidade) {
@@ -39,7 +41,7 @@ public class Cliente {
     public void setNumero(String numero) {
         this.numero = numero;
     }
-    
+
     public void setCidade(String cidade) {
         this.cidade = cidade;
     }
@@ -47,16 +49,16 @@ public class Cliente {
     public void setBairro(String bairro) {
         this.bairro = bairro;
     }
-    
+
     public void setRenda(double renda) {
         this.renda = renda;
     }
-    
-    public void setDep(int dependentes){
+
+    public void setDep(int dependentes) {
         this.dependentes = dependentes;
     }
-    
-    public String getNome(){
+
+    public String getNome() {
         return nome;
     }
 
@@ -81,6 +83,39 @@ public class Cliente {
         }
 
         return desconto;
+    }
+
+    public double getParcelas(double preco) {
+        if (dependentes == 1) {
+            parcelas = preco/12;
+            System.out.println("12x de R$ " + (preco) / 12 + "cada!");
+        }
+        if (dependentes == 2) {
+            parcelas = preco/24;
+            System.out.println("24x de R$ " + (preco) / 24 + "cada!");
+        }
+        if (dependentes == 3) {
+            parcelas = preco/36;
+            System.out.println("36x de R$ " + (preco) / 36 + "cada!");
+        }
+        if (dependentes >= 4) {
+            parcelas = preco/48;
+            System.out.println("48x de R$ " + (preco) / 48 + "cada!");
+        }
+        
+        if(renda < 1000){
+            System.out.println("Juros de 1% por parcela.");
+            juros = 0.01;
+        } else {
+            if(renda < 3000) {
+                juros = 0.025;
+                System.out.println("Juros de 2,5% por parcela.");
+            } else {
+                juros = 0.045;
+                System.out.println("Juros de 4,5% por parcela.");
+            }
+        }
+        return parcelas;
     }
 
     public int getCpf() {

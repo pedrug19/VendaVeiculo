@@ -61,7 +61,7 @@ public class Motocicleta extends Veiculo {
     }
     
     public TipoMotocicleta getMoto(){
-        return motocicleta;
+        return enummotocicleta;
     }
     
     @Override
