@@ -754,8 +754,26 @@ public class VendaVeiculo {
                             realizarVenda();
                             break;
                         case 11:
-                            System.out.println("\n relatório completo \n");
+                            System.out.println("\n relatório comum: \n");
+                            System.out.println("\n=================================== * * ===================================");                           
+                            System.out.println("\n Carros: \n");
+                            for(int i=0;i<carros.size();i++){
+                                carros.get(i).getTudo();
+                            }
+                            
+                            System.out.println("\n\n=================================== * * ===================================");                           
+                            System.out.println("\n Motocicletas: \n");
+                            for(int i=0;i<motocicletas.size();i++){
+                                motocicletas.get(i).getTudo();
+                            }  
+                            
+                            System.out.println("\n\n=================================== * * ===================================");                           
+                            System.out.println("\n Clientes: \n");
+                            for(int i=0;i<clientes.size();i++){
+                                clientes.get(i).getTudo();
+                            }                            
                             break;
+
                     }
 
                 }//fim - while
