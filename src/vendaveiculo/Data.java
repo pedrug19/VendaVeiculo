@@ -1,13 +1,9 @@
 package vendaveiculo;
 
-import java.text.*;
-import java.util.*;
-import java.time.*;
-
 public class Data {
 
-    protected int diaNasc, mesNasc, anoNasc, idade, diaHoje = 1, mesHoje = 6, anoHoje = 2017, mesesTrab;
-    protected int diaAdm, mesAdm, anoAdm;
+    private int diaNasc, mesNasc, anoNasc, idade, diaHoje = 1, mesHoje = 6, anoHoje = 2017, mesesTrab;
+    private int diaAdm, mesAdm, anoAdm;
 
     public Data(int diaNasc, int mesNasc, int anoNasc, int diaAdm, int mesAdm, int anoAdm) {
         this.diaNasc = diaNasc;

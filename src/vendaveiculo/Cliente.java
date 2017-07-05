@@ -2,10 +2,10 @@ package vendaveiculo;
 
 public class Cliente {
 
-    int CPF, dependentes, dianasc, mesnasc, anonasc;
-    double renda, desconto;
-    String nome, rua, numero, bairro, cidade;
-    Data datanasc;
+    private int CPF, dependentes, dianasc, mesnasc, anonasc;
+    private double renda, desconto;
+    private String nome, rua, numero, bairro, cidade;
+    private Data datanasc;
 
     public Cliente(int CPF, double renda, int dependentes, int dianasc, int mesnasc,
             int anonasc, String nome, String rua, String numero, String bairro, String cidade) {
@@ -55,6 +55,10 @@ public class Cliente {
     public void setDep(int dependentes){
         this.dependentes = dependentes;
     }
+    
+    public String getNome(){
+        return nome;
+    }
 
     public double getRenda() {
         return renda;
@@ -64,15 +68,15 @@ public class Cliente {
         return dependentes;
     }
 
-    public double getDesconto() {
+    public double getDesconto(double preco) {
         if (renda < 1000) {
-            this.desconto = renda * 0.1;//10%
+            this.desconto = preco * 0.1;//10%
         } else {
             if (renda < 3000) {
-                this.desconto = renda * 0.07;//7%
+                this.desconto = preco * 0.07;//7%
 
             } else {
-                this.desconto = renda * 0.05;//5%
+                this.desconto = preco * 0.05;//5%
             }
         }
 
