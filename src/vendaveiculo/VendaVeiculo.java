@@ -156,7 +156,120 @@ public class VendaVeiculo {
             System.exit(1);
         }
     }
+    public static void lerArqSeniors(FileReader arqRead){
+        try {
+            BufferedReader a = new BufferedReader(arqRead);
+            String linha = a.readLine();
+            vendSeniors.clear();
+            while (linha != null) {
+                nome = linha;
+                linha = a.readLine();
+                RG = Integer.parseInt(linha);
+                linha = a.readLine();
+                diaNasc = Integer.parseInt(linha);
+                linha = a.readLine();
+                mesNasc = Integer.parseInt(linha);
+                linha = a.readLine();
+                anoNasc = Integer.parseInt(linha);
+                linha = a.readLine();
+                diaAdm = Integer.parseInt(linha);
+                linha = a.readLine();
+                mesAdm = Integer.parseInt(linha);
+                linha = a.readLine();
+                anoAdm = Integer.parseInt(linha);
+                linha = a.readLine();
+                salario = Double.parseDouble(linha);
+                linha = a.readLine();
+                VendedorSenior senior = new VendedorSenior(RG, diaNasc, mesNasc, anoNasc, diaAdm,
+                        mesAdm, anoAdm, nome, salario);
+                vendSeniors.add(senior);
+            }
+        } catch (IOException ex) {//mistério
+            System.out.println("\n O programa será fechado, favor consultar a equipe de TI.\n ");
+            System.exit(1);
+        }
+    }
+    
+    public static void lerArqJuniors(FileReader arqRead){
+        try {
+            BufferedReader a = new BufferedReader(arqRead);
+            String linha = a.readLine();
+            vendJuniors.clear();
+            while (linha != null) {
+                nome = linha;
+                linha = a.readLine();
+                RG = Integer.parseInt(linha);
+                linha = a.readLine();
+                diaNasc = Integer.parseInt(linha);
+                linha = a.readLine();
+                mesNasc = Integer.parseInt(linha);
+                linha = a.readLine();
+                anoNasc = Integer.parseInt(linha);
+                linha = a.readLine();
+                diaAdm = Integer.parseInt(linha);
+                linha = a.readLine();
+                mesAdm = Integer.parseInt(linha);
+                linha = a.readLine();
+                anoAdm = Integer.parseInt(linha);
+                linha = a.readLine();
+                salario = Double.parseDouble(linha);
+                linha = a.readLine();
+                tempoRest = Integer.parseInt(linha);
+                linha = a.readLine(); 
+                responsavel = linha;
+                linha = a.readLine();                
+                vendedorJunior junior = new vendedorJunior(RG, diaNasc, mesNasc, anoNasc, diaAdm,
+                        mesAdm, anoAdm, nome, salario, tempoRest, responsavel);
+                vendJuniors.add(junior);
+            }
+        } catch (IOException ex) {//mistério
+            System.out.println("\n O programa será fechado, favor consultar a equipe de TI.\n ");
+            System.exit(1);
+        }
+    }
 
+    public static void lerArqCarros(FileReader arqCar){
+        
+    }
+   
+    public static void lerArqMotocicletas(FileReader arqRead){
+        try {
+            BufferedReader a = new BufferedReader(arqRead);
+            String linha = a.readLine();
+            vendJuniors.clear();
+            while (linha != null) {
+                numchassi = Integer.parseInt(linha);
+                linha = a.readLine();
+                ano = Integer.parseInt(linha);
+                linha = a.readLine();
+                quilometragem = Integer.parseInt(linha);
+                linha = a.readLine();
+                peso = Integer.parseInt(linha);
+                linha = a.readLine();
+                marca = linha;
+                linha = a.readLine();             
+                modelo = linha;
+                linha = a.readLine();                
+                tipocombustivel = linha;
+                linha = a.readLine();                                
+                status = Integer.parseInt(linha);
+                linha = a.readLine();
+                cilindradas = Integer.parseInt(linha);
+                linha = a.readLine();
+                moto = linha;
+                linha = a.readLine();   
+                preco = Double.parseDouble(linha);
+                linha = a.readLine();                
+                Motocicleta motocicleta = new Motocicleta(numchassi, ano, quilometragem, peso, marca,
+                        modelo, tipocombustivel, status, cilindradas, moto, preco);
+                motocicletas.add(motocicleta);
+            }
+        } catch (IOException ex) {//mistério
+            System.out.println("\n O programa será fechado, favor consultar a equipe de TI.\n ");
+            System.exit(1);
+        }
+    }
+    
     public static void arquivos() {
         try {
             File arqCli = new File("C:\\Users\\User\\Documents\\Programas Java\\vendaVeiculo\\src\\vendaveiculo\\banco\\clientes.txt");
